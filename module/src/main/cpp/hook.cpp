@@ -31,7 +31,7 @@
 #include "Rect.h"
 #include <fstream>
 #include <limits>
-#define GamePackageName "com.kitkagames.fallbuddies" // define the game package name here please
+#define GamePackageName "com.kakaogames.gdts" // define the game package name here please
 
 int glHeight, glWidth;
 
@@ -91,4 +91,30 @@ void *hack_thread(void *arg) {
     }
     LOGI("Draw Done!");
     return nullptr;
+}
+
+bool isGodMode; int damageMultiplier = 1;
+
+void (*old_ApplyDamagePlayer)(void* instance);
+void ApplyDamagePlayer(void instance) {
+    if (instance != NULL) {
+        if (isGodMode) {
+            return;
+        }
+    }
+    return old_ApplyDamagePlayer(instance);
+}
+void (*old_ApplyDamageEnemy)(void* instance, int damage);
+void ApplyDamageEnemy(void instance, int damage) {
+    if (instance != NULL) {
+        damage *= damageMultiplier;
+    }
+    return old_ApplyDamageEnemy(instance, damage);
+}
+
+// Calling the hooks constructed above
+void Hooks() {
+    // HOOK are automatically obfuscated, refer to macros defined in Misc.h
+    HOOK("0xOFFSET_1", ApplyDamagePlayer, old_ApplyDamagePlayer);
+    HOOK("0xOFFSET_2", ApplyDamageEnemy, old_ApplyDamageEnemy);
 }
