@@ -11,32 +11,23 @@ void DrawMenu()
 {
     static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     {
-        Begin(OBFUSCATE("ZyCheats"));
+        Begin(OBFUSCATE("Platinmods.com")); // Header
         ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_FittingPolicyResizeDown;
-        if (BeginTabBar("Menu", tab_bar_flags)) {
-            if (BeginTabItem(OBFUSCATE("Account"))) {
-                // here menu stuff, remove test btw
-                // ImGui::Checkbox(OBFUSCATE("This is a checkbox"), &test);
-                if (Button(OBFUSCATE("Add Currency"))) {
-                    // code for button action
-                    addCurrency = true;
-                }
-                TextUnformatted(OBFUSCATE("Adds 1000 gems"));
-                if (Button(OBFUSCATE("Add Skins"))) {
-                    // code for button action
-                    addSkins = true;
-                }
-                Checkbox(OBFUSCATE("Everything unlocked"), &everythingUnlocked);
-                Checkbox(OBFUSCATE("Free Items"), &freeItems);
-                Checkbox(OBFUSCATE("Show Items"), &showAllItems);
+        if (BeginTabBar(OBFUSCATE("Main Tab"), tab_bar_flags)) {
+            if (BeginTabItem(BFUSCATE("Tab Items"))) {
+                TextUnformatted(OBFUSCATE("Damage Multiplier:")); // just plain text
+
+                SliderInt(OBFUSCATE("Damage Multiplier"), &damageMultiplier, 1, 100, OBFUSCATE("%d"), 0); // min = 1, max = 100
+                Checkbox(OBFUSCATE("God Mode"), &isGodMode);
                 EndTabItem();
             }
             EndTabBar();
         }
-        Patches();
+        Patches(); // <-This is entry point of patching functions, navigate to it and you will understand :)
         End();
     }
 }
+
 
 void SetupImgui() {
     IMGUI_CHECKVERSION();
